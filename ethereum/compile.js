@@ -17,4 +17,3 @@ for (let contract in output) {
     output[contract]
   );
 }
-
