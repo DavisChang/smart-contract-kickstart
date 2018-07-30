@@ -1,6 +1,11 @@
 import React from 'react';
+import Layout from '../components/Layout';
 
 export default () => {
 
-  return (<h1>show</h1>);
+  return (
+    <Layout>
+      <h1>show</h1>
+    </Layout>
+  );
 };
