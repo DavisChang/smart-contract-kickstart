@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Card } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import Campaign from '../../ethereum/campaign';
+import web3 from '../../ethereum/web3';
 
 class CampaignShow extends Component {
+  static propTypes = {
+    minimumContribution: PropTypes.string.isRequired,
+    balance: PropTypes.string.isRequired,
+    requestsCount: PropTypes.string.isRequired,
+    approversCount: PropTypes.string.isRequired,
+    manager: PropTypes.string.isRequired,
+  }
+
   static async getInitialProps(props) {
     const { query } = props;
     const campaign = Campaign(query.address);
@@ -17,10 +28,54 @@ class CampaignShow extends Component {
     };
   }
 
+  renderCards() {
+    const {
+      balance,
+      manager,
+      minimumContribution,
+      requestsCount,
+      approversCount,
+    } = this.props;
+
+    const items = [
+      {
+        header: manager,
+        meta: 'Address of Manager',
+        description: 'The manager created this campaign and can create requests to withdraw money',
+        style: { overflowWrap: 'break-word' },
+      },
+      {
+        header: minimumContribution,
+        meta: 'Minimum Contribution (wei)',
+        description: 'You must contribute at least this much wei to become an approver',
+      },
+      {
+        header: requestsCount,
+        meta: 'Number of Requests',
+        description: 'A request tries to withdraw money from the contract. Requests must be approved by approvers',
+      },
+      {
+        header: approversCount,
+        meta: 'Number of Approvers',
+        description: 'Number of people who have already donated to this campaign',
+      },
+      {
+        header: web3.utils.fromWei(balance, 'ether'),
+        meta: 'Campaign Balance (ethere)',
+        description: 'The balance is how much money this campaign has left to spend',
+      },
+    ];
+
+    return (<Card.Group items={items} />);
+  }
+
   render() {
     return (
       <Layout>
-        <h3>CampaignShow</h3>
+        <h3>
+          CampaignShow
+        </h3>
+        {this.renderCards()}
       </Layout>
     );
   }
