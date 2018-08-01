@@ -4,7 +4,7 @@ const compiledFactory = require('./build/CampaignFactory.json');
 
 const provider = new HDWalletProvider(
   // 12 word mnemonic which addresses are created from
-  'symptom route sausage inspire believe wink limit ridge bind cram matter stuff',
+  '12 word mnemonic which addresses are created from',
   // URI of Ethereum client to send all other non-transaction-related Web3 requests
   'https://rinkeby.infura.io/poK6FIdwD9FirtC6iQzI',
 );
