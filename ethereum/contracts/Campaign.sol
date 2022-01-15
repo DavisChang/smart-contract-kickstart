@@ -1,14 +1,16 @@
-pragma solidity ^0.4.7;
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
 
 contract CampaignFactory {
-    address[] public deployedCampaigns;
+    Campaign[] public deployedCampaigns;
     
     function createCampaign(uint minimum) public {
-        address newCampaign = new Campaign(minimum, msg.sender);
+        Campaign newCampaign = new Campaign(minimum, payable(msg.sender));
         deployedCampaigns.push(newCampaign);
     }
     
-    function getDeployedCampaigns() public view returns(address[]) {
+    function getDeployedCampaigns() public view returns (Campaign[] memory) {
         return deployedCampaigns;
     }
 }
@@ -17,81 +19,58 @@ contract Campaign {
     struct Request {
         string description;
         uint value;
-        address recipient;
+        address payable recipient;
         bool complete;
         uint approvalCount;
         mapping(address => bool) approvals;
     }
-    
+
     Request[] public requests;
-    address public manager;
+    address payable public manager;
     uint public minimumContribution;
     mapping(address => bool) public approvers;
     uint public approversCount;
-    
+
     modifier restricted() {
-        require(msg.sender == manager);
+        require(payable(msg.sender) == manager);
         _;
     }
     
-    function Campaign(uint minimum, address creator) public {
+    constructor(uint minimum, address payable creator) payable {
         manager = creator;
         minimumContribution = minimum;
     }
-    
+
     function contribute() public payable {
         require(msg.value > minimumContribution);
-        
-        approvers[msg.sender] = true;
+        approvers[payable(msg.sender)] = true;
         approversCount++;
     }
-    
-    function createRequest(string description, uint value, address recipient) public restricted {
-        Request memory newRequest = Request({
-            description: description,
-            value: value,
-            recipient: recipient,
-            complete: false,
-            approvalCount: 0
-        });
-        
-        requests.push(newRequest);
+
+    function createRequest(string calldata description, uint value, address payable recipient) public restricted {
+        Request storage newRequest = requests.push();
+        newRequest.description = description;
+        newRequest.value = value;
+        newRequest.recipient = recipient;
+        newRequest.complete = false;
+        newRequest.approvalCount = 0;
     }
-    
+
     function approveRequest(uint index) public {
         Request storage request = requests[index];
 
-        require(approvers[msg.sender]);
-        require(!request.approvals[msg.sender]);
-        
-        request.approvals[msg.sender] = true;
+        require(approvers[payable(msg.sender)]);
+        require(!request.approvals[payable(msg.sender)]);
+        request.approvals[payable(msg.sender)] = true;
         request.approvalCount++;
     }
-    
+
     function finalizeRequest(uint index) public restricted {
         Request storage request = requests[index];
-
-        require(request.approvalCount > (approversCount / 2 ));
+        require(requests[index].approvalCount > (approversCount / 2));
         require(!request.complete);
-        
+
         request.recipient.transfer(request.value);
         request.complete = true;
-        
-    }
-
-    function getSummary() public view returns (
-        uint, uint, uint, uint, address
-        ) {
-        return (
-            minimumContribution,
-            this.balance,
-            requests.length,
-            approversCount,
-            manager
-        );
-    }
-
-    function getRequestsCount() public view returns (uint) {
-        return requests.length;
     }
 }
