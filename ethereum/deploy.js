@@ -7,7 +7,7 @@ const Campaign = require('./build/Campaign.json')
 // only for testing, you could get this from MetaMask
 // get more testnet(rinkeby) ether from https://faucets.chain.link/rinkeby
 const provider = new HDWalletProvider(
-  '*** **** **** ****',
+  '',
   'https://rinkeby.infura.io/v3/9428e1df1bdd468e9c748fdf057ebbf9'
 )
 
