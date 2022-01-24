@@ -1,29 +1,32 @@
-import Head from 'next/head'
-import { Button } from 'semantic-ui-react'
-import styles from '../styles/Home.module.css'
+import { Container, Header, Button, Card } from 'semantic-ui-react'
 import campaignFactory from '../utils/ethereum/campaignFactory'
+import HeadComps from '../components/Head/HeadComps'
+import Layout from '../components/Layout/Layout'
 
 export default function Home({ campaigns }) {
   console.log(campaigns)
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Web3 Campaigns</title>
-        <meta name="description" content="Web3 Campaigns" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Web3 Campaigns</h1>
-        <Button color="black" onClick={() => console.log('click')}>
-          Nope
-        </Button>
-        <div className={styles.description}>Open Campaigns</div>
-        <div className={styles.grid}>
-          {campaigns.map(camps => (<div className={styles.card} key={camps}>{camps}</div>))}
-        </div>
-      </main>
-    </div>
+  const renderCampaigns = () => {
+    const items = campaigns.map(address => {
+      return {
+        header: <Header as='h3' style={{ wordBreak: 'break-all' }}>{address}</Header>,
+        description: <a href="#">View Campaign</a>,
+        fluid: true
+      }
+    })
+
+    return <Card.Group centered items={items} />
+  }
+  
+  return (
+    <Layout>
+      <HeadComps />
+      <Container>
+        <Header as='h3'>Open Campaigns</Header>
+        <Button primary content='Create Campaign' icon='add circle' floated="right" />
+        {renderCampaigns()}
+      </Container>
+    </Layout>
   )
 }
 
