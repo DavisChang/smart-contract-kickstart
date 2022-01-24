@@ -1,7 +1,7 @@
 import { Container, Header, Button, Card } from 'semantic-ui-react'
-import campaignFactory from '../utils/ethereum/campaignFactory'
-import HeadComps from '../components/Head/HeadComps'
-import Layout from '../components/Layout/Layout'
+import campaignFactory from 'utils/ethereum/campaignFactory'
+import HeadComps from 'components/Head/HeadComps'
+import Layout from 'components/Layout/Layout'
 
 export default function Home({ campaigns }) {
   console.log(campaigns)
