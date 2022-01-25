@@ -1,10 +1,17 @@
 import { Container, Header, Button, Card } from 'semantic-ui-react'
+import { useRouter } from 'next/router'
 import campaignFactory from 'utils/ethereum/campaignFactory'
 import HeadComps from 'components/Head/HeadComps'
 import Layout from 'components/Layout/Layout'
 
 export default function Home({ campaigns }) {
   console.log(campaigns)
+  const router = useRouter()
+
+  const handleCreateCampaign = (e) => {
+    e.preventDefault()
+    router.push('/campaigns/new')
+  }
 
   const renderCampaigns = () => {
     const items = campaigns.map(address => {
@@ -23,7 +30,7 @@ export default function Home({ campaigns }) {
       <HeadComps />
       <Container>
         <Header as='h3'>Open Campaigns</Header>
-        <Button primary content='Create Campaign' icon='add circle' floated="right" />
+        <Button primary content='Create Campaign' icon='add circle' floated="right" onClick={handleCreateCampaign} />
         {renderCampaigns()}
       </Container>
     </Layout>
