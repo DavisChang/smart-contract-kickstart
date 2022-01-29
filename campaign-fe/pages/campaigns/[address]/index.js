@@ -11,7 +11,7 @@ export default function Address() {
     <Layout>
       <HeadComps title="Address"/>
       <Container>
-        <Header as='h3'>Address: {address}</Header>
+        <Header as='h3'>Campaign Details</Header>
       </Container>
     </Layout>
   )

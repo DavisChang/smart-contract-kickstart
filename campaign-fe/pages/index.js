@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Container, Header, Button, Card } from 'semantic-ui-react'
 import { useRouter } from 'next/router'
 import campaignFactory from 'utils/ethereum/campaignFactory'
@@ -17,7 +18,7 @@ export default function Home({ campaigns }) {
     const items = campaigns.map(address => {
       return {
         header: <Header as='h3' style={{ wordBreak: 'break-all' }}>{address}</Header>,
-        description: <a href="#">View Campaign</a>,
+        description: <Link href={`/campaigns/${address}`}><a>View Campaign</a></Link>,
         fluid: true
       }
     })
