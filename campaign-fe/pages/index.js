@@ -6,7 +6,6 @@ import HeadComps from 'components/Head/HeadComps'
 import Layout from 'components/Layout/Layout'
 
 export default function Home({ campaigns }) {
-  console.log(campaigns)
   const router = useRouter()
 
   const handleCreateCampaign = (e) => {
@@ -17,6 +16,7 @@ export default function Home({ campaigns }) {
   const renderCampaigns = () => {
     const items = campaigns.map(address => {
       return {
+        key: address,
         header: <Header as='h3' style={{ wordBreak: 'break-all' }}>{address}</Header>,
         description: <Link href={`/campaigns/${address}`}><a>View Campaign</a></Link>,
         fluid: true

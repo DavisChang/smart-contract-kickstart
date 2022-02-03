@@ -14,15 +14,6 @@ export default function Address({
   approversCount,
   managerAddress
 }) {
-  console.log({
-    address,
-    minimumContribution,
-    balance,
-    requestsCount,
-    approversCount,
-    managerAddress
-  })
-
   const renderCards = () => {
     const items = [
       {
