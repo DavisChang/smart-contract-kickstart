@@ -20,7 +20,6 @@ const ContributeForm = ({ address }) => {
     setErrorMag('')
     try {
       const campaign = Campaign(address)
-      console.log(campaign)
       const accounts = await web3.eth.getAccounts()
       await campaign.methods.contribute().send({
         from: accounts[0],

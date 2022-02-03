@@ -1,4 +1,5 @@
-import { Container, Header, Card, Grid } from 'semantic-ui-react'
+import Link from 'next/link'
+import { Container, Header, Card, Grid, Button } from 'semantic-ui-react'
 import HeadComps from 'components/Head/HeadComps'
 import Layout from 'components/Layout/Layout'
 import Campaign from 'utils/ethereum/campaign'
@@ -69,12 +70,21 @@ export default function Address({
       <Container>
         <Header as='h3'>Campaign Details</Header>
         <Grid>
-          <Grid.Column width={10}>
-            {renderCards()}
-          </Grid.Column>
-          <Grid.Column width={6}>
-              <ContributeForm address={address} />
-          </Grid.Column>
+          <Grid.Row>
+            <Grid.Column width={10}>
+              {renderCards()}
+            </Grid.Column>
+            <Grid.Column width={6}>
+                <ContributeForm address={address} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Link href={`/campaigns/${address}/requests`}>
+                <a><Button primary>View Requests</Button></a>
+              </Link>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
       </Container>
     </Layout>
