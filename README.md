@@ -22,3 +22,14 @@ npm run test
 // deploy smart contract
 node ethereum/deploy.js
 ```
+
+## Q&A
+
+@truffle/hdwallet-provider v2.0.2 has issues. Downgrade to version 2.0.0 and the code will work.
+
+Use the following npm commands to downgrade:
+
+```
+npm remove @truffle/hdwallet-provider && npm i @truffle/hdwallet-provider@2.0.0
+
+```
